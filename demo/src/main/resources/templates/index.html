@@ -1,0 +1,132 @@
+<html>
+<body  ng-app="demo"></body>
+<head>
+    <title>Whether App</title>
+    <link href="css/twitter-bootstrap.css" rel="stylesheet"/>
+    <link href="css/app.css" rel="stylesheet"/>
+</head>
+<script src="js/lib/angular.js" ></script>
+<script src="js/lib/angular-ui-router.min.js" ></script>
+<script src="js/app/app.js"></script>
+<script src="js/app/WeatherService.js"></script>
+<script src="js/app/WeatherController.js"></script>
+
+    <div ng-controller="WeatherController">
+<div class="generic-container">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><span class="lead">Weather </span></div>
+        <div class="panel-body">
+            <div class="formcontainer">
+                <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-lable">City Name</label>
+                            <div class="col-md-7">
+                                <input type="text" ng-model="$scope.cityName" id="cityName" class="username form-control input-sm" placeholder="Enter your city Name" required/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-lable">Start Date</label>
+                            <div class="col-md-7">
+                                <input type="date" name="startDate" ng-model="$scope.startDate" class="form-control input-sm">{{$scope.startDate}}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-lable">End date</label>
+                            <div class="col-md-7">
+                                <input type="date" name="endDate" ng-model="$scope.endDate" class="form-control input-sm">{{$scope.endDate}}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-actions floatRight">
+                            <button type="button" ng-click="getDetailsByCityName($scope.cityName)" class="btn btn-primary ">Find by Name</button>
+                            <button type="button" ng-click="getFilteredByDate($scope.startDate, $scope.endDate)" class="btn btn-info ">Filter By Date</button>
+                            <button type="button" ng-click="generatePdf()" class="btn btn-link">Export to PDF</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="generic-container">
+
+            <!-- Google map -->
+            <script src="https://maps.google.com/maps/api/js?key=AIzaSyDDQRJ8ysIVyfKCI33eSGFh-wbfM07-cAI" type="text/javascript"></script>
+            <!--<script src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
+            <!--/Google map -->
+            <script>
+
+            initializeGoogleMap();
+            function initializeGoogleMap() {
+                    var latlng = new google.maps.LatLng(28.412761, 77.043669);
+                    var settings = {
+                        zoom: 17,
+                        center: latlng,
+                        mapTypeControl: false,
+                        scrollwheel: false,
+                        mapTypeControlOptions: {
+                            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                        },
+                        navigationControl: false,
+                        navigationControlOptions: {
+                            style: google.maps.NavigationControlStyle.SMALL
+                        }
+                    };
+                }
+    </script>
+    </div>
+
+
+<div class="panel panel-default">
+    <div class="container">
+        <div class="col-md-12">
+    <div class="panel-heading"><span class="lead">Weather Details List </span></div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Weather</th>
+                    <th>Temperature</th>
+                    <th>Min Temperature</th>
+                    <th>Max Temperature</th>
+                    <th>Pressure</th>
+                    <th>Air Speed</th>
+                    <th>Humidity</th>
+                    <th width="100"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in weatherData.data track by $index | orderBy: id">
+                    <td>{{item.description}}</td>
+                    <td>{{item.temperature}}</td>
+                    <td>{{item.minTemperature}}</td>
+                    <td>{{item.maxTemperature}}</td>
+                    <td>{{item.pressure}}</td>
+                    <td>{{item.airSpeed}}</td>
+                    <td>{{item.humidity}}</td>
+                    <td><button type="button" ng-click="ctrl.removeUser(item.id)" class="btn btn-danger custom-width">Remove</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
